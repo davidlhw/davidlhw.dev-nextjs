@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import gsap from "gsap";
 
@@ -6,8 +6,12 @@ import useViewportStore from "stores/useViewportStore";
 import useTimelineStore from "stores/useTimelineStore";
 import useModalStore from "stores/useModalStore";
 
-export default () => {
-  const { route } = useRouter();
+export default (
+  renderLottie: boolean,
+  setRenderLottie: (b: boolean) => void,
+  setAllowScroll: (b: boolean) => void
+) => {
+  const router = useRouter();
 
   const hasPlayedOnce = useRef(false);
 
@@ -17,17 +21,46 @@ export default () => {
   const setAnimateIdentity = useTimelineStore(
     (state) => state.setAnimateIdentity
   );
-
   const md = useViewportStore((state) => state.md);
   const modalActive = useModalStore((state) => state.active);
 
+  const [r, setR] = useState("");
+
+  useEffect(() => {
+    setR((prev) => {
+      if (router.asPath.includes("#") || router.route !== "/") {
+        setRenderLottie(false);
+        setAllowScroll(true);
+      } else if (prev !== router.route) {
+        setRenderLottie(true);
+        setAllowScroll(false);
+
+        hasPlayedOnce.current = false;
+      }
+
+      return router.route;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
+
   useEffect(() => {
     const current = master.current;
-    md && header && current.add(header());
-    intro && current.add(intro());
+    if (md && header) {
+      current.add(header());
+    }
 
-    if (modalActive && !hasPlayedOnce.current) current.seek(0).pause();
-    else if (route === "/" && !hasPlayedOnce.current && (header || intro)) {
+    if (intro) {
+      current.add(intro());
+    }
+
+    if ((modalActive && !hasPlayedOnce.current) || renderLottie)
+      current.seek(0).pause();
+    else if (
+      r === "/" &&
+      !hasPlayedOnce.current &&
+      (header || intro) &&
+      !renderLottie
+    ) {
       setAnimateIdentity(false);
       current.seek(-0.5).play();
       hasPlayedOnce.current = true;
@@ -39,5 +72,5 @@ export default () => {
       current.clear();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [header, intro, route, modalActive]);
+  }, [header, intro, r, modalActive, renderLottie]);
 };

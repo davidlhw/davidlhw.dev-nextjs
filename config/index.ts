@@ -10,6 +10,14 @@ export default {
   viewport,
   theme,
   headerNav,
+  articles,
+  landing,
+  error404,
+  pageTitle,
+  lottie: {
+    path: "/static/loading-lottie.json",
+    duration: 888, //in ms = 2sec
+  },
   dateFormat: {
     parse: "dd/MM/yyyy",
     format: "MMM d, yyyy",
@@ -20,8 +28,4 @@ export default {
     twitter: "https://twitter.com/davidlhw_",
     linkedin: "https://www.linkedin.com/in/davidlhw/",
   },
-  articles,
-  landing,
-  error404,
-  pageTitle,
 };

@@ -27,7 +27,13 @@ export const Wrapper = styled.header`
   }
 `;
 
-export default ({ expand }: { expand: [boolean, (b: boolean) => void] }) => {
+export default ({
+  expand,
+  rootDom,
+}: {
+  expand: [boolean, (b: boolean) => void];
+  rootDom: React.RefObject<HTMLDivElement>;
+}) => {
   const router = useRouter();
 
   const { add } = useTimeline();
@@ -39,10 +45,18 @@ export default ({ expand }: { expand: [boolean, (b: boolean) => void] }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [md]);
 
+  const handleLogoClick = () => {
+    if (router.route !== "/" && rootDom.current) {
+      rootDom.current.style.opacity = "0";
+    }
+
+    router.push("/");
+  };
+
   return (
     <Wrapper>
       <div ref={add}>
-        <Logo onClick={() => router.push("/")} />
+        <Logo onClick={handleLogoClick} />
       </div>
 
       <NavGroup expand={expand} add={add} />

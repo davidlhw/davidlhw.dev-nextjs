@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import styled from "styled-components";
 
 import config from "config";
@@ -7,12 +8,13 @@ import { ThemeType } from "config/theme";
 import useModalStore from "stores/useModalStore";
 import useAnimation from "./useAnimation";
 import useThemeStore from "stores/useThemeStore";
+import useViewportStore from "stores/useViewportStore";
 
 const Mask = styled.div`
   position: fixed;
   height: 100vh;
   width: 100vw;
-  z-index: 200;
+  z-index: 1001;
   top: 0;
   left: 0;
 
@@ -31,12 +33,9 @@ const Mask = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin: auto;
-  width: 100%;
-  max-width: 1024px;
-
-  @media screen and (min-width: ${config.viewport.lg}) {
-    width: 80%;
+  position: relative;
+  & > * {
+    margin: 40px 30px !important;
   }
 `;
 
@@ -63,19 +62,58 @@ export default () => {
   const open = useModalStore((state) => state.open);
   const close = useModalStore((state) => state.close);
 
+  const md = useViewportStore((state) => state.md);
+
   const theme = useThemeStore((state) => state.theme);
 
   const ref = useAnimation(active);
+
+  const [aspect, setAspect] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     resume && resume === "true" && open();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resume]);
 
+  useEffect(() => {
+    if (active) {
+      ref.current?.scrollTo(0, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const rate = md ? 0.8 : 1;
+      const width = window.innerWidth * rate;
+
+      setWidth(width);
+      setHeight(width / aspect);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [aspect, md]);
+
   return (
     <Mask ref={ref} onClick={close}>
       <Wrapper>
-        <Resume src={`/static/resume/${mapResume(theme)}`} />
+        <Image
+          src={`/static/resume/${mapResume(theme)}`}
+          alt="Resume"
+          width={width}
+          height={height}
+          objectFit="contain"
+          onLoadingComplete={({ naturalWidth, naturalHeight }) => {
+            setAspect(naturalWidth / naturalHeight);
+          }}
+        />
       </Wrapper>
     </Mask>
   );

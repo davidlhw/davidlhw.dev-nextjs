@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
-import { GetServerSideProps } from "next";
+import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "next/app";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
@@ -14,6 +13,7 @@ import useMasterTimeline from "hooks/useMasterTimeline";
 import Header, { Wrapper as $Header } from "components/Header";
 import Footer from "components/Footer";
 import Modal from "components/Modal";
+import Lottie from "components/Lottie";
 import useModalStore from "stores/useModalStore";
 import useThemeStore from "stores/useThemeStore";
 
@@ -27,6 +27,7 @@ const Wrapper = styled.main(
   min-height: calc(100vh - var(--header-height));
   display: flex;
   flex-direction: column;
+  background: var(--bg);
 
   ${$Header} {
     height: var(--header-height);
@@ -45,18 +46,21 @@ const Wrapper = styled.main(
 );
 
 const BlurMask = styled.div(
-  ({ $blur }: { $blur: boolean }) => `
+  ({ $blur, $allowScroll }: { $blur: boolean; $allowScroll: boolean }) => `
   flex-grow: 1;
   position: absolute;
   top: var(--header-height);
   width: 100%;
   height: calc(100% - var(--header-height));
+  background: var(--bg);
 
   filter: blur(${$blur ? "2px" : "0"});
   transition: filter 0.25s;
 
   display: flex;
   flex-direction: column;
+
+  overflow: ${$allowScroll ? "unset" : "hidden"};
 `
 );
 
@@ -75,21 +79,44 @@ const Content = styled.div`
 `;
 
 export default ({ Component, pageProps }: AppProps) => {
+  const dom = useRef<HTMLDivElement>(null);
+
   const [headerExpand, setHeaderExpand] = useState(false);
+  const [renderLottie, setRenderLottie] = useState(true);
+  const [allowScroll, setAllowScroll] = useState(false);
 
   const modalActive = useModalStore((state) => state.active);
   const theme = useThemeStore((state) => state.theme);
 
-  useMasterTimeline();
+  useMasterTimeline(renderLottie, setRenderLottie, setAllowScroll);
   useResponsive();
   useRootTheme();
 
+  useEffect(() => {
+    if (dom.current) {
+      dom.current.style.opacity = allowScroll ? "1" : "0";
+    }
+  }, [allowScroll]);
+
   return (
     <>
-      <Wrapper $blur={modalActive}>
-        <Header expand={[headerExpand, setHeaderExpand]} />
+      <Lottie
+        renderLottie={renderLottie}
+        setRenderLottie={setRenderLottie}
+        setAllowScroll={setAllowScroll}
+      />
 
-        <BlurMask $blur={headerExpand || modalActive}>
+      <ToastContainer theme={theme} position="bottom-center" />
+
+      <Modal />
+
+      <Wrapper ref={dom} style={{ opacity: 0 }} $blur={modalActive}>
+        <Header expand={[headerExpand, setHeaderExpand]} rootDom={dom} />
+
+        <BlurMask
+          $blur={headerExpand || modalActive}
+          $allowScroll={allowScroll}
+        >
           <Content>
             <Component {...pageProps} />
           </Content>
@@ -97,14 +124,6 @@ export default ({ Component, pageProps }: AppProps) => {
           <Footer />
         </BlurMask>
       </Wrapper>
-
-      <ToastContainer theme={theme} position="bottom-center" />
-
-      <Modal />
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: {} };
 };
