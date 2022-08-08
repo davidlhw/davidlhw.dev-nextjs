@@ -1,4 +1,5 @@
-import { GetServerSideProps } from "next";
+import Head from "next/head";
+import type { GetServerSideProps } from "next";
 import styled from "styled-components";
 
 import locale from "locale";
@@ -38,7 +39,7 @@ const Form = styled.form`
   gap: 25px;
 `;
 
-export default () => {
+export default ({ pageTitle }: { pageTitle: string }) => {
   const { form, setForm } = useForm({
     email: "",
     subject: "",
@@ -51,42 +52,51 @@ export default () => {
   };
 
   return (
-    <Wrapper>
-      <Title>{locale.en.contact.title}</Title>
-      <Subtitle>{locale.en.contact.subtitle}</Subtitle>
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+      <Wrapper>
+        <Title>{locale.en.contact.title}</Title>
+        <Subtitle>{locale.en.contact.subtitle}</Subtitle>
 
-      <Form>
-        <Label text={locale.en.contact.form.email}>
-          <Input
-            placeholder={locale.en.contact.form.placeholder.email}
-            value={form.email}
-            onChange={(e) => setForm({ email: e.target.value })}
-          />
-        </Label>
+        <Form>
+          <Label text={locale.en.contact.form.email}>
+            <Input
+              placeholder={locale.en.contact.form.placeholder.email}
+              value={form.email}
+              onChange={(e) => setForm({ email: e.target.value })}
+            />
+          </Label>
 
-        <Label text={locale.en.contact.form.subject}>
-          <Input
-            placeholder={locale.en.contact.form.placeholder.subject}
-            value={form.subject}
-            onChange={(e) => setForm({ subject: e.target.value })}
-          />
-        </Label>
+          <Label text={locale.en.contact.form.subject}>
+            <Input
+              placeholder={locale.en.contact.form.placeholder.subject}
+              value={form.subject}
+              onChange={(e) => setForm({ subject: e.target.value })}
+            />
+          </Label>
 
-        <Label text={locale.en.contact.form.message}>
-          <TextArea
-            value={form.message}
-            onChange={(e) => setForm({ message: e.target.value })}
-          />
-        </Label>
+          <Label text={locale.en.contact.form.message}>
+            <TextArea
+              value={form.message}
+              onChange={(e) => setForm({ message: e.target.value })}
+            />
+          </Label>
 
-        <Button onClick={handleSendMessage}>
-          {locale.en.contact.form.button}
-        </Button>
-      </Form>
-    </Wrapper>
+          <Button onClick={handleSendMessage}>
+            {locale.en.contact.form.button}
+          </Button>
+        </Form>
+      </Wrapper>
+    </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: {} };
+  return {
+    props: {
+      pageTitle: config.pageTitle.contact,
+    },
+  };
 };

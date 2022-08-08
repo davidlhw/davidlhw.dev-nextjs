@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import styled from "styled-components";
 
 import config from "config";
@@ -61,27 +62,33 @@ export default () => {
   const md = useViewportStore((state) => state.md);
 
   return (
-    <Wrapper>
-      {md && (
-        <Image
-          src="/static/404-man-on-desk.png"
-          width={400}
-          height={400 / imageAspect}
-          alt="404"
-        />
-      )}
+    <>
+      <Head>
+        <title>{config.pageTitle.err404}</title>
+      </Head>
 
-      <h3>{md ? locale.en.err404.title.md : locale.en.err404.title.sm}</h3>
-      <h2>{locale.en.err404.subtitle}</h2>
-      <p>{locale.en.err404.help}</p>
+      <Wrapper>
+        {md && (
+          <Image
+            src="/static/404-man-on-desk.png"
+            width={400}
+            height={400 / imageAspect}
+            alt="404"
+          />
+        )}
 
-      <AnchorGroup>
-        {config.error404.links.map((l, i) => (
-          <a key={i} onClick={() => router.push(l.url)}>
-            {l.text}
-          </a>
-        ))}
-      </AnchorGroup>
-    </Wrapper>
+        <h3>{md ? locale.en.err404.title.md : locale.en.err404.title.sm}</h3>
+        <h2>{locale.en.err404.subtitle}</h2>
+        <p>{locale.en.err404.help}</p>
+
+        <AnchorGroup>
+          {config.error404.links.map((l, i) => (
+            <a key={i} onClick={() => router.push(l.url)}>
+              {l.text}
+            </a>
+          ))}
+        </AnchorGroup>
+      </Wrapper>
+    </>
   );
 };

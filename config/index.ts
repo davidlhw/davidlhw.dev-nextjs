@@ -4,6 +4,7 @@ import error404 from "./error404";
 import viewport from "./viewport";
 import articles from "./articles";
 import headerNav from "./headerNav";
+import pageTitle from "./pageTitle";
 
 export default {
   viewport,
@@ -22,4 +23,5 @@ export default {
   articles,
   landing,
   error404,
+  pageTitle,
 };

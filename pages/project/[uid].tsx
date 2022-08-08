@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
@@ -64,11 +65,13 @@ const RightNav = styled.div`
 `;
 
 export default ({
+  pageTitle,
   hostname,
   data,
   list,
   breadcrumb,
 }: {
+  pageTitle: string;
   hostname: string;
   data: ArticleProp;
   list: ArticleProp[];
@@ -127,43 +130,48 @@ export default ({
    * Render
    */
   return (
-    <Wrapper>
-      {lg && <Breadcrumbs data={_breadcrumb} />}
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+      <Wrapper>
+        {lg && <Breadcrumbs data={_breadcrumb} />}
 
-      <Container>
-        {lg && (
-          <List
-            title={locale.en.article.stickyHeadings.seeOthers}
-            articles={seeOthers}
-          />
-        )}
-
-        <Content>
-          <Meta data={data} hostname={hostname} />
-
-          <Article
-            mdx={markdown}
-            setHeadings={setHeadings}
-            setArticleReady={setArticleReady}
-          />
-        </Content>
-
-        {lg && (
-          <RightNav>
-            <TagsFilter
-              title={locale.en.article.stickyHeadings.languages}
-              tags={data.tags}
-              selectedTags={[]}
-            />
-
+        <Container>
+          {lg && (
             <List
-              articles={headings}
-              title={locale.en.article.stickyHeadings.headings}
+              title={locale.en.article.stickyHeadings.seeOthers}
+              articles={seeOthers}
             />
-          </RightNav>
-        )}
-      </Container>
-    </Wrapper>
+          )}
+
+          <Content>
+            <Meta data={data} hostname={hostname} />
+
+            <Article
+              mdx={markdown}
+              setHeadings={setHeadings}
+              setArticleReady={setArticleReady}
+            />
+          </Content>
+
+          {lg && (
+            <RightNav>
+              <TagsFilter
+                title={locale.en.article.stickyHeadings.languages}
+                tags={data.tags}
+                selectedTags={[]}
+              />
+
+              <List
+                articles={headings}
+                title={locale.en.article.stickyHeadings.headings}
+              />
+            </RightNav>
+          )}
+        </Container>
+      </Wrapper>
+    </>
   );
 };
 
@@ -182,6 +190,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     if (projects.articles[i].uid === uid) {
       return {
         props: {
+          pageTitle: projects.articles[i].title,
           hostname,
           data: projects.articles[i],
           list: excludeArticle(uid, projects.articles),

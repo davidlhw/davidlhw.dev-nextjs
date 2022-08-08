@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
@@ -69,10 +70,12 @@ const RightNav = styled.div`
 `;
 
 export default ({
+  pageTitle,
   hostname,
   data,
   list,
 }: {
+  pageTitle: string;
   hostname: string;
   data: Blog;
   list: Blog[];
@@ -132,45 +135,50 @@ export default ({
    * Render
    */
   return (
-    <Wrapper>
-      {lg && <Breadcrumbs data={breadcrumbs} />}
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+      <Wrapper>
+        {lg && <Breadcrumbs data={breadcrumbs} />}
 
-      <Container>
-        {lg && (
-          <List
-            title={locale.en.article.stickyHeadings.seeOthers}
-            articles={mappedseeOthers}
-          />
-        )}
-
-        <Content>
-          <Meta data={data} hostname={hostname} />
-
-          <Article
-            mdx={markdown}
-            setHeadings={setHeadings}
-            setArticleReady={setArticleReady}
-          />
-        </Content>
-
-        {lg && (
-          <RightNav>
-            <TagsFilter
-              title={locale.en.article.stickyHeadings.topics}
-              tags={data.tags}
-              selectedTags={[]}
-            />
-
+        <Container>
+          {lg && (
             <List
-              articles={headings}
-              title={locale.en.article.stickyHeadings.headings}
+              title={locale.en.article.stickyHeadings.seeOthers}
+              articles={mappedseeOthers}
             />
-          </RightNav>
-        )}
-      </Container>
+          )}
 
-      <ReadMore data={list} excludeArticle={seeOthersArticles} />
-    </Wrapper>
+          <Content>
+            <Meta data={data} hostname={hostname} />
+
+            <Article
+              mdx={markdown}
+              setHeadings={setHeadings}
+              setArticleReady={setArticleReady}
+            />
+          </Content>
+
+          {lg && (
+            <RightNav>
+              <TagsFilter
+                title={locale.en.article.stickyHeadings.topics}
+                tags={data.tags}
+                selectedTags={[]}
+              />
+
+              <List
+                articles={headings}
+                title={locale.en.article.stickyHeadings.headings}
+              />
+            </RightNav>
+          )}
+        </Container>
+
+        <ReadMore data={list} excludeArticle={seeOthersArticles} />
+      </Wrapper>
+    </>
   );
 };
 
@@ -185,6 +193,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const splitUrl = resolvedUrl.split("/");
   const uid = splitUrl[splitUrl.length - 1];
 
+  //Find the matching blog uid
   for (let i = 0; i < articles.length; i++) {
     if (articles[i].uid === uid) {
       return {
@@ -197,5 +206,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
+  //If not found, return error 404 page
   return { notFound: true };
 };

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
@@ -56,10 +57,12 @@ const Empty = styled.div`
 `;
 
 export default ({
+  pageTitle,
   data,
   pageSize,
   page,
 }: {
+  pageTitle: string;
   data: Blog[];
   pageSize: number;
   page: number;
@@ -123,45 +126,50 @@ export default ({
    * Render
    */
   return (
-    <Wrapper>
-      <Breadcrumbs data={config.articles.blogs.breadcrumb} />
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+      <Wrapper>
+        <Breadcrumbs data={config.articles.blogs.breadcrumb} />
 
-      <Container>
-        {lg && (
-          <List
-            articles={seeOthersArticle}
-            title={locale.en.article.stickyHeadings.seeOthers}
-          />
-        )}
-
-        <BlogList>
-          {paginationData.length ? (
-            paginationData.map((b, i) => <BlogCard key={i} blog={b} />)
-          ) : (
-            <Empty>
-              <h3>{locale.en.common.empty}</h3>
-            </Empty>
+        <Container>
+          {lg && (
+            <List
+              articles={seeOthersArticle}
+              title={locale.en.article.stickyHeadings.seeOthers}
+            />
           )}
 
-          <Pagination
-            dataLength={paginationData.length}
-            page={page}
-            pageSize={pageSize}
-            total={filteredData.length}
-            onChange={(page) => navigateTo(`/blog?page=${page}`)}
-          />
-        </BlogList>
+          <BlogList>
+            {paginationData.length ? (
+              paginationData.map((b, i) => <BlogCard key={i} blog={b} />)
+            ) : (
+              <Empty>
+                <h3>{locale.en.common.empty}</h3>
+              </Empty>
+            )}
 
-        {lg && (
-          <TagsFilter
-            title={locale.en.article.stickyHeadings.topics}
-            tags={topics}
-            selectedTags={topicFilter}
-            onChange={setTopicFilter}
-          />
-        )}
-      </Container>
-    </Wrapper>
+            <Pagination
+              dataLength={paginationData.length}
+              page={page}
+              pageSize={pageSize}
+              total={filteredData.length}
+              onChange={(page) => navigateTo(`/blog?page=${page}`)}
+            />
+          </BlogList>
+
+          {lg && (
+            <TagsFilter
+              title={locale.en.article.stickyHeadings.topics}
+              tags={topics}
+              selectedTags={topicFilter}
+              onChange={setTopicFilter}
+            />
+          )}
+        </Container>
+      </Wrapper>
+    </>
   );
 };
 
@@ -170,6 +178,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   return {
     props: {
+      pageTitle: config.pageTitle.blogList,
       data: articles,
       pageSize,
       page: query.page ?? 0,
