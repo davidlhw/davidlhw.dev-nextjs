@@ -1,4 +1,4 @@
-//https://www.npmjs.com/package/lottie-web
+// https://www.npmjs.com/package/lottie-web
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Lottie from "lottie-web";
@@ -28,6 +28,7 @@ const Player = styled.div`
   max-width: 150px;
 `;
 
+// https://stackoverflow.com/questions/69282996/lottie-files-reducing-performance-on-nextjs-app
 export default ({
   renderLottie,
   setRenderLottie,

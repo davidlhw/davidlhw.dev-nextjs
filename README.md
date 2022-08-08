@@ -34,134 +34,29 @@ Preview the site as it will appear once deployed
 npm run start
 ```
 
-# Resume QR Code
+# Customizing and Configurations
 
-Generate your QR code as `https://[your domain]?resume=true`. The app will check for the existence of this query parameter: `resume=true` once the page loads, if it exists it will open the resume immediately.
+For specific configurations, refer to the [Configuration Guide](/docs/CONFIGURATIONS.md).   
 
-# Facebook & Twitter Sharing API Doc
+## Generating Resume QR Code
 
-[Facebook](https://developers.facebook.com/docs/sharing/webmasters)
-<br />
-[Twitter](https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview)
+Generate your QR Code with the URL as `https://[your domain]?resume=true`. The app will check for the existence of this query parameter: `resume=true` on page load and will open the resume modal immediately if parameter exists.
 
-# Configuration Files
+## Creating an Article
 
-## `locale`
-
-Most of the texts in the app can be configured in `/locale/en` folder. There are two files: `landing.ts` which is specifically for landing page while `index.ts` is for other pages.
-
-Some texts in the component (e.g. Cards) are located in `config` folder, since they involve some other variables & logic derivation (e.g. colors, link URL, etc.). In that case you can edit their texts in the file.
-
-## `config`
-
-The config files are named after the component/page they are in. Below sub-sections further describes the properties in config file. Some URLs may be verbose and redundant, but after careful considerations regarding pathing (webpack bundling), it was decided to sacrifice convenience to avoid confusions for webpack.
-
-### `articles`
-
-All the config files here controls how articles are presented & blog-related pages
-
-#### `index`
-
-Breadcrumb maximum title length is defined here.
-
-#### `markdown`
-
-Has 3 files: (i) `blogs` - Contains markdown definition for **blog-related articles**. (ii) `projects` - Contains markdown definition for **project-related articles**. (iii) `plugin` - Contains React JSX component for components where conventional markdown couldn't support.
-
-#### `blogs`
-
-Contains the configuration for blog-list page and blog-article page.
-
-| Property     | Description                                                                                                                            |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `breadcrumb` | Standard breadcrumb definition, do not change this                                                                                     |
-| `articles`   | Defines all blog-related articles data                                                                                                 |
-| `pageSize`   | Pagination size on blog-list page                                                                                                      |
-| `max`        | (i)`quickGlance` - Maximum quick glance articles.<br />(ii) `readMore` - Maximum read more articles on the bottom of blog-article page |
-
-> When defining the `mdxFilename` property from articles. The app will look for the file in `./markdown/blogs` folder.
-
-> ⚠️ Please do not create nested files in `./markdown/blogs`. The concept behind loading \*.mdx file uses React.lazy & webpack **will not** look into the directory recursively. This rule also applies for project-counterpart.
-
-#### `projects`
-
-Contains the configuration for project-article page.
-
-| Property     | Description                 |
-| ------------ | --------------------------- |
-| `breadcrumb` | Similar to blog-counterpart |
-| `articles`   | Similar to blog-counterpart |
-
-> When defining the `mdxFilename` property from articles, the app will look in `./markdown/projects` folder.
-
----
-
-### `landing`
-
-All the config files here are related to landing page.
-
-#### `index`
-
-| Property      | Description                                                                                                                            |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `max`         | (i)`descriptionLength` - Maximum summary/description length for blog & project cards.<br />(ii)`blog` - Maximum blog cards to be shown |
-| `skillsets`   | Programming languages                                                                                                                  |
-| `identities`  | Order-sensitive                                                                                                                        |
-| `experiences` | Affects presentation in 'My Experience' section                                                                                        |
-| `resume`      | The resume file name. **The app will look for the file in `/static/resume` folder**                                                    |
-
----
-
-### `error404`
-
-Configures the help link in 404 page.
-
----
-
-### `headerNav`
-
-Configures the header nav text and link URL.
-
----
-
-### `index`
-
-Contains other config that cannot be categorized into one file, or the config parameters are too little to justify creation of file.
-|Property|Description|
-|---|---|
-|`dateFormat`|Date parsing & formatting token, do not change this|
-|`twitterUsername`|Will be used in Twitter sharing dialog box|
-|`cta`|Call-to-action profile links|
-
----
-
-### theme
-
-Config for light & dark theme, do not change this.
-
----
-
-### viewport
-
-Config for responsive threshold, do not change this.
-
----
-
-# Creating an Article
-
-Article entries are defined in `/config/blogs/articles.ts`. If in doubt, follow the sample defined. More info about the property are listed below:
+Article entries are defined in `/config/articles/markdown`. If in doubt, follow the sample defined. More info about the property are listed below:
 
 | Property        | Description                                                                                                                                                                                           |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `uid`           | The unique ID of each article, make sure the `uid` are unique **throughout** all the array objects                                                                                                    |
+| `uid`           | The unique ID of each article, make sure the `uid` are unique throughout **all** the array objects                                                                                                    |
 | `coverImageUrl` | Cover image used in landing page and read more section                                                                                                                                                |
-| `title`         | Self-explanatory                                                                                                                                                                                      |
+| `title`         | Article's Title                                                                                                                                                                                       |
 | `publishOn`     | Follow the date format: DD/MM/YYYY                                                                                                                                                                    |
-| `readTime`      | Self-explanatory                                                                                                                                                                                      |
-| `tags`          | The tags associated with the article. No restriction, it can be any text                                                                                                                              |
+| `readTime`      | Estimated read time of the article                                                                                                                                                                    |
+| `tags`          | The tags associated with the article. Tags has to be a skillset object, see [landing](#landing) section, under `skillsets`                                                                            |
 | `linkUrl`       | All links are optional, if no link: then no buttons will be shown. Supports `facebook`, `twitter`, `github` & `realSite`. `realSite` is mainly used for project-article to redirect to live-demo site |
 | `mdxFilename`   | Markdown file name defining the content of the article, more on that in the next subsection                                                                                                           |
-| `summary`       | Summary of the whole article                                                                                                                                                                          |
+| `summary`       | Summary of the whole article                   
 
 ## Defining Markdown File
 
@@ -178,7 +73,26 @@ Have a look into `Prototyping.mdx`, you can import other JSX files as a componen
 ## Adding an Article
 
 1. Define and store your markdown files in `config/articles/markdown/blogs` for blog-related articles or `config/articles/markdown/projects` for project-related articles.
-
-2. To add an article to blog page: add a new entry in `config/articles/blogs.ts`, under `const article` array.
-
+2. To add an article to blog page: add a new entry in `config/articles/blogs.ts`, under `article` array.
 3. Similarly for project article: add a new entry instead in `config/articles/projects.ts`
+
+## Adding a Skillset
+
+Once you've pickup a new skill, you would want to add it on in your `skillsets` as a tag to be referenced throughout the site.
+
+1. Source for an svg logo for that skill (or technology). Refer to the [SVG Tools](#svg-tools) section for resources on getting the svg logos.
+2. Add the SVG as a component under `components/svg/programming`.
+3. Update `components/svg/utils.tsx` and `Lang` type under `config/landing/types.ts`.
+4. Add to `config/landing/skillsets.ts` and/or `tags` fields under `config/articles/*`
+
+# Additional Information
+
+## SVG Tools
+
+- [Download SVG Icons](https://icons-for-free.com/)
+- [React SVG Playground](https://react-svgr.com/playground/)
+
+## Social Sharing API Reference
+
+- [Facebook](https://developers.facebook.com/docs/sharing/webmasters)
+- [Twitter](https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview)
