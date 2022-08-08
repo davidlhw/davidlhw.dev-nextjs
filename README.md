@@ -31,7 +31,7 @@ npm run build
 Preview the site as it will appear once deployed
 
 ```bash
-npm run build
+npm run start
 ```
 
 # Resume QR Code
