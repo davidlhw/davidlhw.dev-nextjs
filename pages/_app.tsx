@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "next/app";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
+import PlausibleProvider from "next-plausible";
 
 import config from "config";
 import useResponsive from "hooks/useResponsive";
@@ -99,7 +100,7 @@ export default ({ Component, pageProps }: AppProps) => {
   }, [allowScroll]);
 
   return (
-    <>
+    <PlausibleProvider domain="davidlhw.dev">
       <Lottie
         renderLottie={renderLottie}
         setRenderLottie={setRenderLottie}
@@ -124,6 +125,6 @@ export default ({ Component, pageProps }: AppProps) => {
           <Footer />
         </BlurMask>
       </Wrapper>
-    </>
+    </PlausibleProvider>
   );
 };
