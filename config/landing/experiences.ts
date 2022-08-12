@@ -34,7 +34,7 @@ const experiences: Experience[] = [
     duration: "Apr 2021 - Present",
     jobPosition: "Co-Founder",
     achievements: [
-      `Engineered backend systems from scratch to enable low latency, high throughput web scrapping with hundreds of millions of items processed daily with speeds of 100k items per minute on average, stored to an in-house hosted MongoDB.`,
+      `Engineered backend systems from scratch to enable low latency, high throughput web scrapping with tens of millions of items processed daily with speeds of up to 100k items per minute on average, stored to an in-house hosted MongoDB.`,
       `Designed, built, and optimised the Telegram chatbot interface. Services include notifying users of their tracked product price change alerts, user account management, user account verification and many other services using webhooks and REST APIs.`,
       `Technology stack used include MEAN stack, written entirely using TypeScript, Python Flask for the Telegram bot APIs, ELK stack for the text-based search engine and Redis for caching.`,
     ],
