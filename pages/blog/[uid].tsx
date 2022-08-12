@@ -198,6 +198,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     if (articles[i].uid === uid) {
       return {
         props: {
+          pageTitle: articles[i].title,
           hostname,
           data: articles[i],
           list: excludeBlog(uid, articles),
