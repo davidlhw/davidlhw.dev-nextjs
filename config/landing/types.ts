@@ -34,4 +34,6 @@ export type Lang =
   | "react"
   | "rmq"
   | "elk"
-  | "docker";
+  | "docker"
+  | "mongo"
+  | "nextjs";

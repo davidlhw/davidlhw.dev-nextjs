@@ -13,6 +13,8 @@ import Docker from "./Docker";
 import React from "./React";
 import RabbitMQ from "./RabbitMQ";
 import Elastic from "./Elastic";
+import Mongo from "./Mongo";
+import Next from "./Next";
 
 export function mapProgrammingIcon(lang: Lang, color: string) {
   switch (lang) {
@@ -42,5 +44,9 @@ export function mapProgrammingIcon(lang: Lang, color: string) {
       return <RabbitMQ color={color} />;
     case "elk":
       return <Elastic color={color} />;
+    case "mongo":
+      return <Mongo color={color} />;
+    case "nextjs":
+      return <Next color={color} />;
   }
 }

@@ -22,16 +22,16 @@ const skillsets: Skillset[] = [
     icon: "rs",
   },
   {
+    text: "Mongo",
+    icon: "mongo",
+  },
+  {
     text: "PostgreSQL",
     icon: "pg",
   },
   {
     text: "Redis",
     icon: "redis",
-  },
-  {
-    text: "ELK",
-    icon: "elk",
   },
   {
     text: "Docker",
@@ -42,12 +42,20 @@ const skillsets: Skillset[] = [
     icon: "rmq",
   },
   {
-    text: "React",
-    icon: "react",
+    text: "ELK",
+    icon: "elk",
   },
   {
     text: "Flask",
     icon: "flask",
+  },
+  {
+    text: "React",
+    icon: "react",
+  },
+  {
+    text: "Next",
+    icon: "nextjs",
   },
 ];
 
