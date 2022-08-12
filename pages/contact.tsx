@@ -1,5 +1,5 @@
 import Head from "next/head";
-import type { GetServerSideProps } from "next";
+import type { GetStaticProps } from "next";
 import styled from "styled-components";
 
 import locale from "locale";
@@ -93,7 +93,7 @@ export default ({ pageTitle }: { pageTitle: string }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       pageTitle: config.pageTitle.contact,

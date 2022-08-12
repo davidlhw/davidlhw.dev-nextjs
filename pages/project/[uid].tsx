@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styled from "styled-components";
@@ -175,17 +175,15 @@ export default ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  resolvedUrl,
-  req,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const projects = config.articles.projects;
+  const hostname = config.hostname;
 
-  const hostname = req.headers.host;
+  // params should never be undefined since getStaticPaths has fallback = false
+  // but typescript complains that params is possibly null hence the '?' operator
+  const uid = params?.uid;
 
-  const splitUrl = resolvedUrl.split("/");
-  const uid = splitUrl[splitUrl.length - 1];
-
+  //Find the matching blog uid
   for (let i = 0; i < projects.articles.length; i++) {
     if (projects.articles[i].uid === uid) {
       return {
@@ -200,5 +198,19 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
+  //If not found, return error 404 page
   return { notFound: true };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const projects = config.articles.projects;
+
+  const paths = [];
+  for (let i = 0; i < projects.articles.length; i++) {
+    paths.push({ params: { uid: projects.articles[i].uid } });
+  }
+  return {
+    paths: paths,
+    fallback: false, // see getStaticPaths https://shorturl.at/CXYZ8
+  };
 };

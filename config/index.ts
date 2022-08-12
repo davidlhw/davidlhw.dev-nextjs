@@ -28,4 +28,5 @@ export default {
     twitter: "https://twitter.com/davidlhw_",
     linkedin: "https://www.linkedin.com/in/davidlhw/",
   },
+  hostname: "https://davidlhw.dev",
 };
