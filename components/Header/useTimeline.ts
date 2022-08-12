@@ -25,7 +25,7 @@ export default (active = true) => {
             ease: "power2.out",
             autoAlpha: 1,
             y: 0,
-            stagger: 0.1,
+            stagger: 0.08,
             // overwrite: true
           }
         );

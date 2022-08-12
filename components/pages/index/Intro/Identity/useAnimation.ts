@@ -18,7 +18,7 @@ export default ({
 
       ref.current.forEach((dom) => {
         tl.to(dom, {
-          delay: Math.random() * 0.2 + 0.05,
+          delay: Math.random() * 0.08 + 0.01,
           duration: 0,
           display: "block",
         });

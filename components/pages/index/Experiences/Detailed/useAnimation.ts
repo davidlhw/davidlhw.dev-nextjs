@@ -8,7 +8,7 @@ export default () => {
   useEffect(() => {
     const mouseOver = () => {
       gsap.to(target.current, {
-        duration: 0.25,
+        duration: 0.08,
         ease: "power2.out",
         scaleX: 1,
         overwrite: true,
@@ -17,7 +17,7 @@ export default () => {
 
     const mouseOut = () => {
       gsap.to(target.current, {
-        duration: 0.25,
+        duration: 0.08,
         ease: "power2.out",
         scaleX: 0,
         overwrite: true,

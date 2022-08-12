@@ -16,7 +16,7 @@ export default {
   pageTitle,
   lottie: {
     path: "/static/loading-lottie.json",
-    duration: 888, //in ms = 2sec
+    duration: 288, //in ms = 2sec
   },
   dateFormat: {
     parse: "dd/MM/yyyy",

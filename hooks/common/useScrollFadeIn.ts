@@ -25,7 +25,7 @@ export default (threshold: number, active = false) => {
             duration: 0.5,
             ease: "power.out",
             opacity: 1,
-            stagger: 0.15,
+            stagger: 0.1,
           });
 
           hasPlayedOnce.current = true;
