@@ -58,11 +58,19 @@ const Empty = styled.div`
 
 export default ({
   pageTitle,
+  hostname,
+  ogImage,
+  ogDescription,
+  twitterUsername,
   data,
   pageSize,
   page,
 }: {
   pageTitle: string;
+  hostname: string;
+  ogImage: string;
+  ogDescription: string;
+  twitterUsername: string;
   data: Blog[];
   pageSize: number;
   page: number;
@@ -129,6 +137,17 @@ export default ({
     <>
       <Head>
         <title>{pageTitle}</title>
+        <meta property="og:url" content={`${hostname}${router.asPath}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta name="description" content={ogDescription} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content={`@${twitterUsername}`} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:image" content={ogImage} />
       </Head>
       <Wrapper>
         <Breadcrumbs data={config.articles.blogs.breadcrumb} />
@@ -179,6 +198,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
     props: {
       pageTitle: config.pageTitle.blogList,
+      hostname: config.hostname,
+      ogImage: `${config.hostname}${config.ogImageRelPath}`,
+      ogDescription: config.ogDescription,
+      twitterUsername: `@${config.twitterUsername}`,
       data: articles,
       pageSize,
       page: query.page ?? 0,

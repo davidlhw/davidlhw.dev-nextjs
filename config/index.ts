@@ -29,4 +29,6 @@ export default {
     linkedin: "https://www.linkedin.com/in/davidlhw/",
   },
   hostname: "https://davidlhw.dev",
+  ogImageRelPath: "/cover.png",
+  ogDescription: "Personal portfolio site and DevLogs",
 };

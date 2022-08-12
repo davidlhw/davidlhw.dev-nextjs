@@ -65,6 +65,14 @@ export default () => {
     <>
       <Head>
         <title>{config.pageTitle.err404}</title>
+        <meta property="og:url" content={config.hostname} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={config.pageTitle.err404} />
+        <meta name="twitter:title" content={config.pageTitle.err404} />
+        <meta
+          name="twitter:iamge"
+          content={`${config.hostname}${config.ogImageRelPath}`}
+        />
       </Head>
 
       <Wrapper>

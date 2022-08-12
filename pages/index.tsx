@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import styled from "styled-components";
 
@@ -32,12 +32,20 @@ const Wrapper = styled.div`
 
 export default ({
   pageTitle,
+  hostname,
+  ogImage,
+  ogDescription,
+  twitterUsername,
   identities,
   experiences,
   projects,
   blogs,
 }: {
   pageTitle: string;
+  hostname: string;
+  ogImage: string;
+  ogDescription: string;
+  twitterUsername: string;
   identities: string[];
   experiences: ExperienceType[];
   projects: ArticleType[];
@@ -46,6 +54,17 @@ export default ({
   <>
     <Head>
       <title>{pageTitle}</title>
+      <meta property="og:url" content={hostname} />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={ogDescription} />
+      <meta name="description" content={ogDescription} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content={twitterUsername} />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={ogDescription} />
+      <meta name="twitter:iamge" content={ogImage} />
     </Head>
     <Wrapper>
       <Intro identities={identities} />
@@ -57,10 +76,14 @@ export default ({
   </>
 );
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       pageTitle: config.pageTitle.landing,
+      hostname: config.hostname,
+      ogImage: `${config.hostname}${config.ogImageRelPath}`,
+      ogDescription: config.ogDescription,
+      twitterUsername: `@${config.twitterUsername}`,
       identities: config.landing.identities,
       experiences: config.landing.experiences,
       projects: config.articles.projects.articles,

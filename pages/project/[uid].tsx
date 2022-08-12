@@ -67,12 +67,16 @@ const RightNav = styled.div`
 export default ({
   pageTitle,
   hostname,
+  ogImage,
+  twitterUsername,
   data,
   list,
   breadcrumb,
 }: {
   pageTitle: string;
   hostname: string;
+  ogImage: string;
+  twitterUsername: string;
   data: ArticleProp;
   list: ArticleProp[];
   breadcrumb: Breadcrumb[];
@@ -133,6 +137,17 @@ export default ({
     <>
       <Head>
         <title>{pageTitle}</title>
+        <meta property="og:url" content={`${hostname}${asPath}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={data.summary} />
+        <meta name="description" content={data.summary} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content={twitterUsername} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={data.summary} />
+        <meta name="twitter:image" content={ogImage} />
       </Head>
       <Wrapper>
         {lg && <Breadcrumbs data={_breadcrumb} />}
@@ -190,6 +205,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         props: {
           pageTitle: projects.articles[i].title,
           hostname,
+          ogImage: `${config.hostname}${config.ogImageRelPath}`,
+          twitterUsername: `@${config.twitterUsername}`,
           data: projects.articles[i],
           list: excludeArticle(uid, projects.articles),
           breadcrumb: projects.breadcrumb,
