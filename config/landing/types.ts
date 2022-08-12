@@ -18,7 +18,7 @@ export type Project = {
 
 export type Skillset = {
   text: string;
-  icon: Lang;
+  icon?: Lang;
 };
 
 export type Lang =

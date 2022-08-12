@@ -68,7 +68,7 @@ export default ({ identities }: { identities: string[] }) => {
             key={i}
             bgColor="#E1EFFE"
             color="#1E429F"
-            icon={mapProgrammingIcon(s.icon, "#1E429F")}
+            icon={s.icon ? mapProgrammingIcon(s.icon, "#1E429F") : undefined}
           >
             {s.text}
           </Tag>

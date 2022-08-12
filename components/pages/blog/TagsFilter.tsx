@@ -74,7 +74,7 @@ export default ({
               color={active ? "#1E429F" : "var(--primary)"}
               bgColor={active ? "#E1EFFE" : "var(--bg-alt)"}
               onClick={onChange ? () => handleTagClick(t.text) : undefined}
-              icon={mapProgrammingIcon(t.icon, "#1E429F")}
+              icon={t.icon ? mapProgrammingIcon(t.icon, "#1E429F") : undefined}
             >
               {t.text}
             </Tag>

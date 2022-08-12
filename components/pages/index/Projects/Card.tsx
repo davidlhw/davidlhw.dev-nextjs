@@ -158,7 +158,9 @@ export default React.forwardRef(
                 key={i}
                 bgColor="#E1EFFE"
                 color="#1E429F"
-                icon={mapProgrammingIcon(p.icon, "#1E429F")}
+                icon={
+                  p.icon ? mapProgrammingIcon(p.icon, "#1E429F") : undefined
+                }
               >
                 {p.text}
               </Tag>
