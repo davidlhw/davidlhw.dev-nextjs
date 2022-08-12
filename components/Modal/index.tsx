@@ -20,6 +20,8 @@ const Mask = styled.div`
 
   background: #000a;
   overflow: scroll;
+  overscroll-behavior: none;
+  touch-action: none;
   opacity: 0;
 
   display: flex;
@@ -29,6 +31,7 @@ const Mask = styled.div`
     overflow: unset;
     overflow-y: scroll;
     justify-content: center;
+    touch-action: unset;
   }
 `;
 
@@ -80,14 +83,31 @@ export default () => {
   useEffect(() => {
     if (active) {
       ref.current?.scrollTo(0, 0);
+
+      if (!md) {
+        const noScroll = (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+
+        window.addEventListener("touchmove", noScroll, { passive: false });
+        window.addEventListener("wheel", noScroll, { passive: false });
+
+        return () => {
+          window.removeEventListener("touchmove", noScroll);
+          window.removeEventListener("wheel", noScroll);
+        };
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
+  }, [active, md]);
 
   useEffect(() => {
     const handleResize = () => {
       const rate = md ? 0.8 : 1;
-      const width = window.innerWidth * rate;
+      let width = window.innerWidth * rate;
+
+      if (width > 1200) width = 800;
 
       setWidth(width);
       setHeight(width / aspect);
@@ -100,6 +120,24 @@ export default () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [aspect, md]);
+
+  // prevent scrolling of the resume when the viewport exceeds the modal
+  useEffect(() => {
+    if (height < window.innerHeight && active) {
+      const noScroll = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      window.addEventListener("wheel", noScroll, { passive: false });
+      window.addEventListener("touchmove", noScroll, { passive: false });
+
+      return () => {
+        window.removeEventListener("wheel", noScroll);
+        window.removeEventListener("touchmove", noScroll);
+      };
+    }
+  }, [height, active]);
 
   return (
     <Mask ref={ref} onClick={close}>

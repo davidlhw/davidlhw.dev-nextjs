@@ -81,6 +81,7 @@ const Content = styled.div`
 
 export default ({ Component, pageProps }: AppProps) => {
   const dom = useRef<HTMLDivElement>(null);
+  const mask = useRef<HTMLDivElement>(null);
 
   const [headerExpand, setHeaderExpand] = useState(false);
   const [renderLottie, setRenderLottie] = useState(true);
@@ -115,6 +116,7 @@ export default ({ Component, pageProps }: AppProps) => {
         <Header expand={[headerExpand, setHeaderExpand]} rootDom={dom} />
 
         <BlurMask
+          ref={mask}
           $blur={headerExpand || modalActive}
           $allowScroll={allowScroll}
         >

@@ -76,6 +76,24 @@ export default ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [md]);
 
+  useEffect(() => {
+    if (expand[0]) {
+      const noScroll = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      window.addEventListener("wheel", noScroll, { passive: false });
+      window.addEventListener("touchmove", noScroll, { passive: false });
+
+      return () => {
+        window.removeEventListener("wheel", noScroll);
+        window.removeEventListener("touchmove", noScroll);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expand[0]]);
+
   const collapse = () => {
     expand[1](false);
   };
