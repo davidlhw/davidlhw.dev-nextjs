@@ -212,7 +212,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         props: {
           pageTitle: articles[i].title,
           hostname,
-          ogImage: `${config.hostname}${config.ogImageRelPath}`,
+          ogImage: `${config.hostname}${articles[i].coverImageUrl}`,
           twitterUsername: `@${config.twitterUsername}`,
           data: articles[i],
           list: excludeBlog(uid, articles),

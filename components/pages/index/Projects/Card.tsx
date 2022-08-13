@@ -22,8 +22,8 @@ const Mask = styled.div`
   width: 100%;
   z-index: 10;
 
-  background: #c2f4ff;
-  opacity: 0.8;
+  background: #BAD1FF;
+  opacity: 0.5;
   transition: 0.25s opacity;
 `;
 

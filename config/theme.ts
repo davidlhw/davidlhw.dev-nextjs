@@ -16,7 +16,7 @@ const theme: { [k in ThemeType]: Theme } = {
     primary: "#6B7280",
     secondary: "#F3F4F6",
     text: "#111928",
-    azure: "#1C64F2", //Same between light and dark
+    azure: "#1C64F2",
   },
   dark: {
     bg: "#1F2A37",
