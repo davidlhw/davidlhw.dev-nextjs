@@ -6,35 +6,63 @@ const breadcrumb: Breadcrumb[] = [
 ];
 
 const articles: Blog[] = [
-  // {
-  //   uid: "JyYWLpk6IkK_mPzQh0pdmg",
-  //   coverImageUrl: "/static/blogs/prototyping/cover.jpg",
-  //   title: "Prototyping from A to Z: best practices for successful prototypes",
-  //   publishOn: "12/08/1997",
-  //   readTime: "16 min",
-  //   type: {
-  //     text: "Tutorial",
-  //     icon: "camera",
-  //   },
-  //   tags: [
-  //     {
-  //       text: "Python",
-  //       icon: "py",
-  //     },
-  //     {
-  //       text: "Flask",
-  //       icon: "flask",
-  //     },
-  //   ],
-  //   linkUrl: {
-  //     facebook: "https://google.com",
-  //   },
-  //   mdxFilename: "Prototyping.mdx",
-  //   summary: `
-  //     Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of
-  //     tools that even influence both web designers and developers.
-  //   `,
-  // },
+  {
+    uid: "software-development-workflows",
+    coverImageUrl: "/static/blogs/software-development-workflows/cover.svg",
+    title: "Software Development Workflows for CI/CD",
+    publishOn: "26/07/2022",
+    readTime: "4 min",
+    type: {
+      text: "Learning",
+      icon: "newspaper",
+    },
+    tags: [
+      { text: "Software Development" },
+      { text: "CI/CD" },
+      { text: "Branching Technique" },
+      { text: "Development Methodology" },
+    ],
+    linkUrl: {},
+    mdxFilename: "software-development-workflows.mdx",
+    summary: `
+      Creating and releasing software places a premium on speed and agility in the current software development context.
+      To make several concurrent modifications, teams need to prioritize having an effective branching technique.
+    `,
+  },
+  {
+    uid: "programming-paradigms",
+    coverImageUrl: "/static/blogs/programming-paradigms/cover.svg",
+    title: "Programming Paradigms: What & Why?",
+    publishOn: "29/07/2022",
+    readTime: "5 min",
+    type: {
+      text: "Learning",
+      icon: "newspaper",
+    },
+    tags: [{ text: "Software Development" }, { text: "Programming Paradigm" }],
+    linkUrl: {},
+    mdxFilename: "programming-paradigms.mdx",
+    summary: `
+      Programming paradigm refers to the writing style and method of structuring code. It refers to tools and strategies to solve problems in a certain way, following a certain structure. There are many well-known styles; teams should always adhere to a paradigm's philosophy or approach when choosing to focus on one.
+    `,
+  },
+  {
+    uid: "software-development-methodology",
+    coverImageUrl: "/static/blogs/software-development-methodology/cover.svg",
+    title: "Software Development Methodologies",
+    publishOn: "02/08/2022",
+    readTime: "5 min",
+    type: {
+      text: "Learning",
+      icon: "newspaper",
+    },
+    tags: [{ text: "Software Development" }, { text: "Project Management" }],
+    linkUrl: {},
+    mdxFilename: "software-development-methodology.mdx",
+    summary: `
+      Software development methodology comprises a set of guidelines, instruments, and methods used in project planning, execution, and management. Software development techniques support team engagement by assisting project managers in leading team members and monitoring work.
+    `,
+  },
 ];
 
 export default {

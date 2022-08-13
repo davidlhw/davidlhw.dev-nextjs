@@ -1,0 +1,72 @@
+Creating and releasing software places a premium on speed and agility in the current software development context. To make several concurrent modifications, teams need to prioritize having an effective branching technique.
+
+### What is a branching technique? <a id="branching-techniques" />
+
+Development teams typically utilize branches as a way to build features. It simply consists of a set of guidelines that programmers can adhere to when deciding how to collaborate with a common codebase.
+
+Adhering to such techniques further enhances the DevOps process as the DevOps itself is about developing a quick workflow that enables the delivery of small
+batches of code. DevOps consists of a set of procedures called CI/CD that allow development teams to deploy code updates regularly and fast.
+
+Git branching techniques include:
+
+- GitFlow
+- GitHub Flow
+- GitLab Flow
+- Trunk-based development (TBD)
+
+### GitFlow <a id="gitflow" />
+
+There are five main types of branches to this technique.
+
+- **Master:** the main branch with stored production code for deployment
+- **Develop:** possess ongoing development and all the finished codes of other branches
+- **Feature:** used to develop new features
+- **Hotfix:** fix issues and merged to Develop and Master
+- **Release:** prepare to release candidate which will be merged to Develop and Master branches
+
+The most well-known branching mechanism (also known as feature-based development) uses multiple branches to handle the source code. Two key branches of this technique are Master and Develop.
+
+Utilizing the development branch as a starting point, developers build various branches for various use cases. The _Feature_, _Hotfix_, and _Release_ branches are created as such.
+
+### GitHub Flow <a id="github-flow" />
+
+GitHub Flow is a more user-friendly replacement to GitFlow since smaller teams do not need to handle many versions. This approach lacks _Release_ branches, in contrast to GitFlow. Developers begin with the _Master_ branch, then separate their activity into _Feature_ branches that come straight from the _Master_, which are subsequently merged back into the _Master_ for release.
+
+The key concept underlying this approach is maintaining the master code in a continuously deployable state, which can ease up CI/CD operations.
+
+### GitLab Flow <a id="gitlab-flow" />
+
+The developers work straight with the _Master_ branch in this approach. Few new environmental branches are added according to the circumstance such as production and pre-production branches. Development takes place in one of the environmental branches and confirmed and tested code is merged into other branches till it reaches the production branch.
+
+The _Feature_ branch in the GitLab workflow houses work on new features and bug fixes that may be merged back into the _Master_ branch for release after they are pushed, reviewed and merged.
+
+### Trunk-Based Development <a id="trunk-based-development" />
+
+The developers incorporate their changes directly into the _Master_ branch (shared trunk) very frequently and fast. No branches are utilized here. It has continuous small changes and prevents merge issues. Thus, Trunk-Based Development is a strict CI/CD follower.
+
+The deployment process uses feature flags in the shared trunk to filter any incomplete code and allow only complete code for public release.
+
+The following is a table highlighting the pros and cons of the Git branching techniques.
+
+### What is the most preferred branching technique? <a id="most-preferred-technique" />
+
+All the branching techniques discussed are proven methods to manage source code. The ideal choice of approach does not exist. It is heavily dependent on the needs of the team as well as the nature and the complexity of the project. To get started quicklys with a small team, the Trunk-Based Development and GitHub Flow approaches are generally ideal to maintain a single release version.
+
+The following is a summarized table for what I think is the most suitable pick based on the software product and the expected deployment cycle.
+
+<a href="https://bit.ly/3P0DEeH" target="_blank">Best Git Branching Strategies</a> goes much more in-depth into the understanding of techniques and their selection
+process.
+
+### Branching techniques used in FAANG companies <a id="used-in-faang" />
+
+Facebook <a href="https://engineering.fb.com/2017/08/31/web/rapid-release-at-massive-scale/" target="_blank">Meta</a> engineering states that they empower programmers to distribute their code in modest, safe, progressive increments and do it rapidly and accurately. Teams at <a href="https://cloud.google.com/architecture/devops/devops-tech-trunk-based-development" target="_blank">Google</a> emphasize much on DevOps and CI/CD and adhere to the disciplinary TBD approach. iOS developers, on the other hand, employ GitFlow, GitHub Flow as well as TBD workflows. There is no specific technique used.
+
+According to a senior software engineer at <a href="https://www.infoq.com/news/2020/07/continuous-delivery-amazon/" target="_blank">Amazon</a>, they rarely produce branches for coding and deal straight with the main branch and hence employ TBD. It also is essentially a CI/CD requirement.
+
+In general, GitFlow and TBD are two prominent <a href="https://circleci.com/blog/trunk-vs-feature-based-dev" target="_blank">Git-based workflows</a> that modern tech companies employ in their development.
+
+### Recap
+
+Developers need to break down the software development into many branches for various reasons and thus branching techniques are used.
+
+Practicing branching techniques improves DevOps and software development in every sense. Git branching is one such popular method. Several of its techniques have their use cases depending on the software product type and requirements.
