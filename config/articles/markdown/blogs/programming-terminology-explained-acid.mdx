@@ -1,0 +1,106 @@
+Learning and understanding programming terminology can get confusing, given how these terms have multiple meanings in different scenarios.
+It is important that we learn the terminology that we will be using in conversations to avoid confusion among the team.
+
+### Atomicity: The A in ACID <a id="atomicity" />
+
+Atomicity refers to a property of a system (usually a database) where operations either happen completely, or don’t happen at all.
+
+Let's imagine that our database comprises of bank accounts and Alvin is attempting to send Ben $10. We could put this into practice by first deducting $10 from Alvin account and then adding $10 to Ben account.
+
+But what happens if right after we perform the deduction, this system crashes? The addition then doesn't get processed, and the money has been “removed” from the system. We refer to this as a halfway state or partial success since only a portion of the operation has been completed while some parts are left incomplete.
+
+To solve this problem, some database has features that provide atomicity. To use this feature, we wrap the desired operations and mark them as an atomic group, which is referred to as the database transaction (no relation to financial transactions). If any operation of the transaction is unable to complete, the already finished operations before it will be automatically undone.
+
+In summary, with atomicity, all the statements must either be complete entirely or have no effect whatsoever. There is no half-completed state.
+
+### Consistency: The C in ACID <a id="consistency" />
+
+Like many terms in software engineering, the term consistency has multiple different meanings. Let’s go over two of them.
+
+### Data Consistency <a id="data-consistency" />
+
+The data in a system is accurate, valid, and meets all desired constraints.
+
+For example, if you have a table of users, you might have a constraint that every user in this table must have a first name longer than 2 characters. Or, if you have a table of profiles, that every row in the profile table must have a unique user id that refers to a valid user. Or, for the table of sales, all the counts in the table must sum to 100. The data in a database in considered consistent if all the desired constraints are met and the database is said to provide data consistency if it enforces such constraints for the user. Some database will forbid users from modifying data in such a way that breaks a constraint like inserting a row in users with the first name shorter than 2 characters.
+
+### Freshness Consistency <a id="freshness-consistency" />
+
+Reading from a database always retrieves the latest value.
+
+In a simple case like a single database, when I perform an operation like writing a counter value then reading the counter value, I will always get the most recent value. When we write something then read it, the read is always fresh and takes the latest write value. This seems pretty easy, however, everything changes at scale. Large-scale databases are often composed of multiple mini-databases or nodes, each handling reads and/or writes while constantly synchronising data with each other. This is done so that each node shares a fraction of the load allowing the overall system to support more traffic compared to just a single node.
+
+When one node receives a write, it propagates that information to the other nodes so that they can update themselves to reflect the latest change. In the ideal case, we can write to 1 node, it propagates the data into the other nodes, and when we read from that node, we always pick up the updated value.
+
+However, that means there’s a case where we can write to 1 node then read the same value from another node before the synchronisation happens and get a stale value. Because of this, this particular database is said to not have freshness consistency.
+
+Some large-scale database technology offers full freshness consistency, known as **strong consistency**, while others only offer a limited of freshness consistency called the **eventual consistency**, which means that reading from a database will give the freshest value if you wait long enough before reading.
+
+There is a trade-off between consistency and reliability plus performance because providing strong consistency creates a huge coordination bottleneck where all databases in the system have to always be on the same page. Relaxing this makes each database more independent so each database can handle more traffic and be more resilient when its siblings have problems, improving reliability and performance of the system. Which one is good depends on the kind of application that we are building. Strong consistency is critical for many areas like payments and logistics because inconsistency can lead to huge problems like losing money or corrupting transactions. On the other hand, eventual consistency would more than enough and more economical for a blog or social network where a like or status update not showing up immediately is likely not a big deal.
+
+### Isolation: The C in ACID <a id="isolation" />
+
+Isolation is a property of a database where simultaneous operations on the same data never see each other’s in-progress work.
+
+### Without Data Isolation Guarantee <a id="without-data-isolation-guarantee" />
+
+Taking the previous example, where we have a database with bank accounts, and Alvin is transferring $10 to Ben and this operation is done within a single atomic group (or database transaction).
+
+Let’s say that while this is happening, we also want to ask the system for the total amount of cash in the system, where Alvin and Ben are the only users. We should expect the answer to always be $200, since money shouldn’t be created or destroyed. If we are simultaneously performing a transfer AND querying the system for a sum, there are three scenarios for how the relative timing of these two operations might work out:
+
+1. **Querying before the transfer begins**
+
+   If we query the total amount of cash before the transfer begins, we get $200.
+
+2. **Querying after the transfer ends**
+
+   If we query the total amount of cash after the transfer ends, we get $200 as well.
+
+3. **Querying in the middle of the transfer**
+
+   However, if we query the total amount of cash in the middle of the transfer, there is a critical moment in between the first and second operations where the system is not in a valid state, because $10 is missing.
+
+Atomicity guarantees that if there’s an error, partially completed operations will be rewound, so it’s not possible for the $10 to be permanently gone. But, there is still this temporary invalid state where the $10 hasn’t yet been added to Bob’s account.
+
+In a database without isolation guarantees, it’s possible for the query to see the system in this temporary invalid state. Thus, the query to get the total sum of this system will yield a result of $190, which is wrong.
+
+### With Data Isolation Guarantee <a id="with-data-isolation-guarantee" />
+
+Let’s look at what happens in a database with isolation guarantees. When the transfer transaction removes money from Alvin’s account, this change is isolated and is only visible inside the same transaction, hidden from other transactions. Thus, the database is able to conceal the fact that a transaction is in progress, and let the other operation query Alvin and Bob’s accounts as if the transfer had not yet started. When the transfer transaction finishes, its effects become visible all at once. That means there’s never a moment where a simultaneous query could see invalid information, and therefore the transactions are isolated from each other.
+
+Some databases allow you to customize the level of isolation. On one side, there is full isolation between transactions. On the other, there is no isolation. In between, there are degrees of isolation that isolate some, but not all kinds of operations. The reason for this is because there is a tradeoff between performance and isolation quality. The more work the database has to do to shield simultaneous operations from each other, the slower it is able to process queries. On the other hand, if the level of isolation is set to none, the database doesn’t need to do this hiding work, and can process queries much faster, at the risk of transactions seeing each other’s in-progress work and doing something wrong. Which level is right depends on the application and is based on what the database will be used for.
+
+### Durability: The A in ACID <a id="durability" />
+
+Durability is a property of a database that guarantees that completed updates will not be lost if a system crashes.
+
+In general, when databases is being requested to store data, they write that data to a form of persistent storage like a disk drive. It’s called persistent because once the data is written, the system could crash, or even suffer a power outage, and the data will be safe.
+
+However, some databases will delay writing to persistent storage until later so that they can write several updates in one batch. For example, if I ask the database to write data 1, then data 2, it might hang on to them in memory and then write them in one batch later. This technique, called batching, increases performance. However, if the database has data that hasn’t yet been written and there’s a power outage, that data is lost. These databases do _not_ have durability.
+
+If the database doesn’t use batching and writes to persistent storage on every request, is it durable? **_Not quite._** Persistent storage is actually three different components
+
+1. **The operating system**
+2. **The disk drive controller**
+3. **The actual physical atoms and electrons used for storage**
+
+The operating system and disk drive controller also perform batching for performance improvements. In a power outage, data queued for batching at the operating system or disk layer will also be lost because it didn’t make it to the actual atoms and electrons.
+
+To avoid batching, it’s we can tell the operating system and disk drive controller to write everything currently queued, which is called flushing. A database with durability both executes a write to the disk drive on every update and tells the disk drive to flush the write.
+
+Taking a look at real world implementation of durability, using Redis as an example, there are 3 main levels of durability.
+
+1. **Append Only File (AOF)**
+
+   Records every write as soon as it’s received. Even though it records every write, it is not always durable as that would depends on the flush policy. Redis uses the term fsync, short for filesystem sync, as a synonym for flushing.
+
+2. **Redis Database (RDB)**
+
+   Performs point-in-time snapshots. In other words, after every N seconds, it saves all the data in the database to disk. If you have a power outage, you’ll lose all the data since the last save, which will be at most N seconds ago. This doesn’t meet the criteria for durability, but it shows the tradeoff between persistence and performance. If you save more often, you lose less data, but you have to spend more time saving.
+
+3. **No Persistence**
+
+   When the database process exits or there’s a power outage, all data is lost. That’s easy enough to understand. It could be useful if your application is OK with all data being wiped at any moment, like a short-lived cache.
+
+### Recap <a id="recap" />
+
+To recap, a database is considered to have durability if it can guarantee on every write operation, that when the database says “done writing”, the data is encoded in real physical atoms and electrons. The downside of this is that forcing a physical write for every update makes updates slower, so there is a tradeoff between durability and performance. We looked at 3 main ways Redis supports durability. The first is always, which flushes on every write. This is durable! But as the post notes, it’s very slow. The second option is every N seconds, which is not durable, but provides at most N seconds of data loss, similar to the previous approach saving every N seconds. And the last doesn’t explicitly flush and leaves it up to the operating system to organically decide when to write to disk. Which configuration is most ideal would be up to the application developer to decide, based on what the technology is used for, taking into account the trade-offs.
