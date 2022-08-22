@@ -87,7 +87,9 @@ export const getStaticProps: GetStaticProps = async () => {
       identities: config.landing.identities,
       experiences: config.landing.experiences,
       projects: config.articles.projects.articles,
-      blogs: config.articles.blogs.articles.slice(-config.landing.max.blog),
+      blogs: config.articles.blogs.articles
+        .sort((a, b) => parseInt(b.publishOn) - parseInt(a.publishOn))
+        .slice(0, config.landing.max.blog),
     },
   };
 };

@@ -7,7 +7,7 @@ const articles: Article[] = [
     uid: "saleswhale-teams-clone",
     coverImageUrl: "/static/projects/saleswhale-teams-clone/cover.png",
     title: "Saleswhale Teams Clone",
-    publishOn: "12/12/2012",
+    publishOn: "20220530",
     readTime: "12 min",
     tags: [
       {
@@ -32,7 +32,7 @@ const articles: Article[] = [
     uid: "file-sensitivity-system",
     coverImageUrl: "/static/projects/file-sensitivity-system/cover.svg",
     title: "File Sensitivity System",
-    publishOn: "12/12/2012",
+    publishOn: "20210917",
     readTime: "12 min",
     tags: [
       {
@@ -69,7 +69,7 @@ const articles: Article[] = [
     uid: "slido-me-first",
     coverImageUrl: "/static/projects/slido-me-first/cover.svg",
     title: "Slido Vote Bot",
-    publishOn: "12/12/2012",
+    publishOn: "20220207",
     readTime: "12 min",
     tags: [
       {

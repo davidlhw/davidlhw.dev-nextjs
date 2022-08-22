@@ -19,8 +19,8 @@ export default {
     duration: 288, //in ms = 2sec
   },
   dateFormat: {
-    parse: "dd/MM/yyyy",
-    format: "MMM d, yyyy",
+    parse: "yyyyMMdd",
+    format: "dd MMM yyyy",
   },
   twitterUsername: "davidlhw_",
   cta: {
