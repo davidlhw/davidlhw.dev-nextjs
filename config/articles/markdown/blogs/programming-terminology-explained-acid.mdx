@@ -19,13 +19,13 @@ Like many terms in software engineering, the term consistency has multiple diffe
 
 ### Data Consistency <a id="data-consistency" />
 
-The data in a system is accurate, valid, and meets all desired constraints.
+Data Consistency refers to a state where the data in a system is accurate, valid, and meets all desired constraints.
 
 For example, if you have a table of users, you might have a constraint that every user in this table must have a first name longer than 2 characters. Or, if you have a table of profiles, that every row in the profile table must have a unique user id that refers to a valid user. Or, for the table of sales, all the counts in the table must sum to 100. The data in a database in considered consistent if all the desired constraints are met and the database is said to provide data consistency if it enforces such constraints for the user. Some database will forbid users from modifying data in such a way that breaks a constraint like inserting a row in users with the first name shorter than 2 characters.
 
 ### Freshness Consistency <a id="freshness-consistency" />
 
-Reading from a database always retrieves the latest value.
+Freshness Consistency refers to a state where reading from a database always retrieves the latest value.
 
 In a simple case like a single database, when I perform an operation like writing a counter value then reading the counter value, I will always get the most recent value. When we write something then read it, the read is always fresh and takes the latest write value. This seems pretty easy, however, everything changes at scale. Large-scale databases are often composed of multiple mini-databases or nodes, each handling reads and/or writes while constantly synchronising data with each other. This is done so that each node shares a fraction of the load allowing the overall system to support more traffic compared to just a single node.
 
@@ -37,7 +37,7 @@ Some large-scale database technology offers full freshness consistency, known as
 
 There is a trade-off between consistency and reliability plus performance because providing strong consistency creates a huge coordination bottleneck where all databases in the system have to always be on the same page. Relaxing this makes each database more independent so each database can handle more traffic and be more resilient when its siblings have problems, improving reliability and performance of the system. Which one is good depends on the kind of application that we are building. Strong consistency is critical for many areas like payments and logistics because inconsistency can lead to huge problems like losing money or corrupting transactions. On the other hand, eventual consistency would more than enough and more economical for a blog or social network where a like or status update not showing up immediately is likely not a big deal.
 
-### Isolation: The C in ACID <a id="isolation" />
+### Isolation: The I in ACID <a id="isolation" />
 
 Isolation is a property of a database where simultaneous operations on the same data never see each other’s in-progress work.
 
@@ -69,7 +69,7 @@ Let’s look at what happens in a database with isolation guarantees. When the t
 
 Some databases allow you to customize the level of isolation. On one side, there is full isolation between transactions. On the other, there is no isolation. In between, there are degrees of isolation that isolate some, but not all kinds of operations. The reason for this is because there is a tradeoff between performance and isolation quality. The more work the database has to do to shield simultaneous operations from each other, the slower it is able to process queries. On the other hand, if the level of isolation is set to none, the database doesn’t need to do this hiding work, and can process queries much faster, at the risk of transactions seeing each other’s in-progress work and doing something wrong. Which level is right depends on the application and is based on what the database will be used for.
 
-### Durability: The A in ACID <a id="durability" />
+### Durability: The D in ACID <a id="durability" />
 
 Durability is a property of a database that guarantees that completed updates will not be lost if a system crashes.
 
