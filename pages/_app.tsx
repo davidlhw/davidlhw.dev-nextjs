@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "next/app";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
-import PlausibleProvider from "next-plausible";
+import Script from "next/script";
 
 import config from "config";
 import useResponsive from "hooks/useResponsive";
@@ -99,9 +99,21 @@ export default ({ Component, pageProps }: AppProps) => {
       dom.current.style.opacity = allowScroll ? "1" : "0";
     }
   }, [allowScroll]);
-
   return (
-    <PlausibleProvider domain="davidlhw.dev">
+    <>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-Z58T9W0B24"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-Z58T9W0B24');
+        `}
+      </Script>
       <Lottie
         renderLottie={renderLottie}
         setRenderLottie={setRenderLottie}
@@ -127,6 +139,6 @@ export default ({ Component, pageProps }: AppProps) => {
           <Footer />
         </BlurMask>
       </Wrapper>
-    </PlausibleProvider>
+    </>
   );
 };
