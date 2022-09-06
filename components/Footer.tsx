@@ -10,7 +10,7 @@ import LinkedIn from "./svg/social/LinkedIn";
 
 const Wrapper = styled.footer`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: 15px;
 
   padding: 25px var(--padding-h);
@@ -22,15 +22,13 @@ const Wrapper = styled.footer`
   }
 
   @media screen and (min-width: ${config.viewport.md}) {
-    flex-direction: row;
-    justify-content: space-between;
     padding: 25px var(--padding-h);
   }
 `;
 
 const CTOGroup = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 20px;
 
   & svg {
     height: 18px;
@@ -43,6 +41,10 @@ export default () => (
     <p>{locale.en.footer.copyright}</p>
 
     <CTOGroup>
+      <LinkedIn
+        color="var(--primary)"
+        onClick={() => openNewTab(config.cta.linkedin)}
+      />
       <Github
         color="var(--primary)"
         onClick={() => openNewTab(config.cta.github)}
@@ -50,10 +52,6 @@ export default () => (
       <Twitter
         color="var(--primary)"
         onClick={() => openNewTab(config.cta.twitter)}
-      />
-      <LinkedIn
-        color="var(--primary)"
-        onClick={() => openNewTab(config.cta.linkedin)}
       />
     </CTOGroup>
   </Wrapper>

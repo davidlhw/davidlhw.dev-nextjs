@@ -46,6 +46,13 @@ export default ({ add }: { add: (dom: HTMLElement | null) => void }) => {
       </div>
 
       <div ref={add}>
+        <LinkedIn
+          color="var(--primary)"
+          onClick={() => openNewTab(config.cta.linkedin)}
+        />
+      </div>
+
+      <div ref={add}>
         <Github
           color="var(--primary)"
           onClick={() => openNewTab(config.cta.github)}
@@ -56,13 +63,6 @@ export default ({ add }: { add: (dom: HTMLElement | null) => void }) => {
         <Twitter
           color="var(--primary)"
           onClick={() => openNewTab(config.cta.twitter)}
-        />
-      </div>
-
-      <div ref={add}>
-        <LinkedIn
-          color="var(--primary)"
-          onClick={() => openNewTab(config.cta.linkedin)}
         />
       </div>
     </Wrapper>

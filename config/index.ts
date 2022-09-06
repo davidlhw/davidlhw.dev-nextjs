@@ -25,8 +25,8 @@ export default {
   twitterUsername: "davidlhw_",
   cta: {
     github: "https://github.com/DavidLHW",
-    twitter: "https://twitter.com/davidlhw_",
     linkedin: "https://www.linkedin.com/in/davidlhw/",
+    twitter: "https://twitter.com/davidlhw_",
   },
   hostname: "https://davidlhw.dev",
   ogImageRelPath: "/cover.png",
