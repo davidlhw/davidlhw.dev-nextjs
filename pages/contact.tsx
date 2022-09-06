@@ -1,6 +1,7 @@
 import Head from "next/head";
 import type { GetStaticProps } from "next";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import locale from "locale";
 import config from "config";
@@ -36,7 +37,7 @@ const Subtitle = styled.p`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 35px;
 `;
 
 export default ({ pageTitle }: { pageTitle: string }) => {
@@ -44,11 +45,48 @@ export default ({ pageTitle }: { pageTitle: string }) => {
     email: "",
     subject: "",
     message: "",
+    emailErr: false,
   });
+
+  const validateEmail = (email: string) => {
+    return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  };
 
   const handleSendMessage = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log(form);
+
+    let validForm = true;
+
+    // form validation
+    if (validateEmail(form.email)) {
+      setForm({ emailErr: false });
+    } else {
+      validForm = false;
+      setForm({ emailErr: true });
+    }
+
+    if (!validForm) return;
+
+    // Send message
+    const requestBody = {
+      chat_id: 238013249,
+      message: form,
+    };
+    console.log(requestBody);
+    fetch(
+      "https://asia-southeast1-personal-360206.cloudfunctions.net/personal-telebot",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      }
+    ).then((res) => {
+      console.log("Request complete! response:", res);
+    });
+
+    // clear form and add toast
+    toast.success("Sent!", { toastId: "contact" }); //Show toast
+    document.getElementsByTagName("form")[0].reset();
   };
 
   return (
@@ -61,16 +99,26 @@ export default ({ pageTitle }: { pageTitle: string }) => {
         <Subtitle>{locale.en.contact.subtitle}</Subtitle>
 
         <Form>
-          <Label text={locale.en.contact.form.email}>
+          <Label
+            text={locale.en.contact.form.email}
+            error={
+              form.emailErr
+                ? locale.en.contact.form.errMessage.email
+                : undefined
+            }
+          >
             <Input
+              required
               placeholder={locale.en.contact.form.placeholder.email}
               value={form.email}
               onChange={(e) => setForm({ email: e.target.value })}
+              error={!!form.emailErr}
             />
           </Label>
 
           <Label text={locale.en.contact.form.subject}>
             <Input
+              required
               placeholder={locale.en.contact.form.placeholder.subject}
               value={form.subject}
               onChange={(e) => setForm({ subject: e.target.value })}
@@ -79,12 +127,13 @@ export default ({ pageTitle }: { pageTitle: string }) => {
 
           <Label text={locale.en.contact.form.message}>
             <TextArea
+              required
               value={form.message}
               onChange={(e) => setForm({ message: e.target.value })}
             />
           </Label>
 
-          <Button onClick={handleSendMessage}>
+          <Button onClick={handleSendMessage} type="submit">
             {locale.en.contact.form.button}
           </Button>
         </Form>

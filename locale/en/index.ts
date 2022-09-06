@@ -18,6 +18,10 @@ const contact = {
       subject: "Let me know how I can help",
     },
 
+    errMessage: {
+      email: "Email is required!",
+    },
+
     button: "Send Message",
   },
 };
