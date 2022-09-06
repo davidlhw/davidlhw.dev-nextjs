@@ -140,6 +140,7 @@ export default ({
         <meta property="og:url" content={`${hostname}${router.asPath}`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={ogImage} />
+        <meta property="og:image:alt" content={pageTitle} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={ogDescription} />
         <meta name="description" content={ogDescription} />
