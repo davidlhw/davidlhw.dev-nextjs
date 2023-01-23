@@ -147,7 +147,7 @@ export default () => {
           alt="Resume"
           width={width}
           height={height}
-          objectFit="contain"
+          style={{ objectFit: "contain" }}
           onLoadingComplete={({ naturalWidth, naturalHeight }) => {
             setAspect(naturalWidth / naturalHeight);
           }}
