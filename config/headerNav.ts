@@ -5,7 +5,7 @@ type Nav = {
 
 const nav: Nav[] = [
   { display: "Projects", url: "/#projects" },
-  { display: "Blogs", url: "/blog" },
+  { display: "Blogs", url: "https://medium.com/@davidlhw" },
   // { display: "Links", url: "/" },
   { display: "Contact", url: "/contact" },
 ];

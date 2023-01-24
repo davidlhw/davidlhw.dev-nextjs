@@ -49,7 +49,6 @@ export default ({
     if (router.route !== "/" && rootDom.current) {
       rootDom.current.style.opacity = "0";
     }
-
     router.push("/");
   };
 

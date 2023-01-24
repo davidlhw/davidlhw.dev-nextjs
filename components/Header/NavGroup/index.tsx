@@ -5,6 +5,7 @@ import styled from "styled-components";
 import config from "config";
 import useViewportStore from "stores/useViewportStore";
 import useAnimation from "./useAnimation";
+import Link from "next/link";
 
 const Wrapper = styled.nav`
   flex-grow: 1;
@@ -104,17 +105,27 @@ export default ({
 
       <Dropdown ref={dropdown} onClick={collapse}>
         {config.headerNav.map((n, i) => (
-          <Item key={i} onClick={() => router.push(n.url)}>
-            {n.display}
+          <Item key={i}>
+            <Link
+              href={n.url}
+              target={n.url.startsWith("https:") ? "_blank" : ""}
+            >
+              {n.display}
+            </Link>
           </Item>
         ))}
       </Dropdown>
 
       <Inline>
         {config.headerNav.map((n, i) => (
-          <div ref={add} key={i} onClick={() => router.push(n.url)}>
+          <Link
+            ref={add}
+            key={i}
+            href={n.url}
+            target={n.url.startsWith("https:") ? "_blank" : ""}
+          >
             {n.display}
-          </div>
+          </Link>
         ))}
       </Inline>
     </Wrapper>
