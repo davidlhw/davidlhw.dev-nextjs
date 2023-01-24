@@ -4,6 +4,35 @@ const breadcrumb: Breadcrumb[] = [{ text: "Home", url: "/" }];
 
 const articles: Article[] = [
   {
+    uid: "before-class",
+    coverImageUrl: "/static/projects/before-class/cover.png",
+    title: "BeforeClass",
+    publishOn: "20230124",
+    readTime: "12 min",
+    tags: [
+      {
+        text: "Vue",
+        icon: "vue",
+      },
+      {
+        text: "Firebase",
+        icon: "firebase",
+      },
+      {
+        text: "Tailwind",
+        icon: "tailwind",
+      },
+    ],
+    linkUrl: {
+      github: "https://github.com/BeforeClass/web-frontend",
+      realSite: "https://beforeclass.netlify.app",
+    },
+    mdxFilename: "Project1.mdx",
+    summary: `
+      An open-source university module planning tool for SMU students.
+    `,
+  },
+  {
     uid: "saleswhale-teams-clone",
     coverImageUrl: "/static/projects/saleswhale-teams-clone/cover.png",
     title: "Saleswhale Teams Clone",

@@ -36,4 +36,7 @@ export type Lang =
   | "elk"
   | "docker"
   | "mongo"
-  | "nextjs";
+  | "nextjs"
+  | "firebase"
+  | "tailwind"
+  | "vue";

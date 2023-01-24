@@ -22,7 +22,7 @@ const Mask = styled.div`
   width: 100%;
   z-index: 10;
 
-  background: #BAD1FF;
+  background: #bad1ff;
   opacity: 0.5;
   transition: 0.25s opacity;
 `;
@@ -168,10 +168,10 @@ export default React.forwardRef(
           </TagGroup>
 
           <LinkGroup onClick={(e) => e.stopPropagation()}>
-            <Document
+            {/* <Document
               color="var(--primary)"
               onClick={() => router.push(`/project/${uid}`)}
-            />
+            /> */}
 
             {linkUrl?.github && (
               <Github

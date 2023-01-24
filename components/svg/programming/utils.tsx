@@ -15,6 +15,9 @@ import RabbitMQ from "./RabbitMQ";
 import Elastic from "./Elastic";
 import Mongo from "./Mongo";
 import Next from "./Next";
+import Firebase from "./firebase";
+import Tailwind from "./tailwind";
+import Vue from "./vue";
 
 export function mapProgrammingIcon(lang: Lang, color: string) {
   switch (lang) {
@@ -48,5 +51,11 @@ export function mapProgrammingIcon(lang: Lang, color: string) {
       return <Mongo color={color} />;
     case "nextjs":
       return <Next color={color} />;
+    case "firebase":
+      return <Firebase color={color} />;
+    case "tailwind":
+      return <Tailwind color={color} />;
+    case "vue":
+      return <Vue color={color} />;
   }
 }
