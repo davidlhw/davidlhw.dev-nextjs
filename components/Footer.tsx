@@ -7,6 +7,7 @@ import { openNewTab } from "utils";
 import Twitter from "./svg/social/Twitter";
 import Github from "./svg/social/Github";
 import LinkedIn from "./svg/social/LinkedIn";
+import Medium from "./svg/social/medium";
 
 const Wrapper = styled.footer`
   display: flex;
@@ -48,6 +49,10 @@ export default () => (
       <Github
         color="var(--primary)"
         onClick={() => openNewTab(config.cta.github)}
+      />
+      <Medium
+        color="var(--primary)"
+        onClick={() => openNewTab(config.cta.medium)}
       />
       <Twitter
         color="var(--primary)"

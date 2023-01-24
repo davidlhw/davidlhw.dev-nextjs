@@ -24,6 +24,7 @@ export default {
   },
   twitterUsername: "davidlhw_",
   cta: {
+    medium: "https://medium.com/@davidlhw",
     github: "https://github.com/DavidLHW",
     linkedin: "https://www.linkedin.com/in/davidlhw/",
     twitter: "https://twitter.com/davidlhw_",

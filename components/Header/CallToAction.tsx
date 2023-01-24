@@ -8,6 +8,7 @@ import Github from "components/svg/social/Github";
 import Twitter from "components/svg/social/Twitter";
 import LinkedIn from "components/svg/social/LinkedIn";
 import Crescent from "components/svg/Crescent";
+import Medium from "components/svg/social/medium";
 
 const Wrapper = styled.div`
   display: none;
@@ -56,6 +57,13 @@ export default ({ add }: { add: (dom: HTMLElement | null) => void }) => {
         <Github
           color="var(--primary)"
           onClick={() => openNewTab(config.cta.github)}
+        />
+      </div>
+
+      <div ref={add}>
+        <Medium
+          color="var(--primary)"
+          onClick={() => openNewTab(config.cta.medium)}
         />
       </div>
 
